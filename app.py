@@ -13,8 +13,8 @@ def load_students():
 def save_students(students):
     with open(FILE_NAME,"w")as file:
         json.dump(students,file,indent=4)
-@app.route("/")
 
+@app.route("/")
 def home():
     return jsonify({
         "message":"Welcome to student management API"
