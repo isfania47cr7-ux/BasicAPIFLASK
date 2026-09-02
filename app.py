@@ -21,7 +21,6 @@ def home():
     })
 
 @app.route("/students",methods=['POST'])
-
 def add_student():
     students=load_students()
     data=request.json
@@ -45,6 +44,98 @@ def add_student():
     return jsonify({
         "message":"Student Added Successfully"
     })
+@app.route("/students",methods=["GET"])
+def get_students():
+    students=load_students()
+    return jsonify(students)
 
-if __name__ == "__main__":
+@app.route("/students/<int:id>",methods=["GET"])
+def get_student(id):
+    students=load_students()
+    for student in students:
+        if student["id"]==id:
+            return jsonify(student)
+        
+    return jsonify({
+        "message":"Student Not Found"
+    }),404
+
+@app.route("/students/<int:id>",methods=["PUT"])
+def update_student(id):
+    students=load_students()
+    data=request.json
+    
+    for student in students:
+        if student["id"]==id:
+            student["name"]=data.get("name",student["name"])
+            student["course"]=data.get("course",student["course"])
+            student["age"]=data.get("age",student["age"])
+
+            save_students(students)
+            return jsonify({
+                "message":"Student Updated Successfully"
+            })
+        
+    return jsonify({
+        "message":"Student Not Found"
+    }),404
+
+@app.route("/students/<int:id>",methods=["DELETE"])
+def delete_student(id):
+    students=load_students()
+    for student in students:
+        if student["id"]==id:
+            students.remove(student)
+            save_students(students)
+            return jsonify({
+                "message":"Student Deleted Successfully"
+            })
+        
+    return jsonify({
+        "message":"Student Deleted successfully"
+    }),404
+
+@app.route("/students/course/<course>",methods=["GET"])
+def search_course(course):
+    students=load_students()
+    result=[]
+
+    for student in students:
+        if student["course"].lower()==course.lower():
+            result.append(student)
+    return jsonify(result)
+
+@app.route("/students/search/<name>",methods=["GET"])
+def search_student(name):
+    students=load_students()
+    result=[]
+    for student in students:
+        if name.lower() in student["name"].lower():
+            result.append(student)
+    return jsonify(result) 
+
+@app.route("/students/statistics")
+def statistics():
+    students=load_students()
+    total=len(students)
+
+    average_age=sum(student["age"] for student in students)/total if total else 0
+    python_students=len([student for  student in students if student["course"].lower()=="python"])
+    nodjs_students=len([student for student in students if student["course"].lower()=="nodjs"])
+
+    return jsonify({
+        "Total Students":total,
+        "Average Age":round(average_age, 2),
+        "Python Students":python_students,
+        "NodeJS Students":nodjs_students
+    })
+
+@app.route("/students/count")
+def count_students():
+    students=load_students()
+    return jsonify({
+        "Total Students":len(students)
+    })
+                     
+if __name__ == "__main__":#takes as main while executing the file
     app.run(debug=True)
