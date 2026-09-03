@@ -44,6 +44,7 @@ def add_student():
     return jsonify({
         "message":"Student Added Successfully"
     })
+
 @app.route("/students",methods=["GET"])
 def get_students():
     students=load_students()
