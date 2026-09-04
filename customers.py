@@ -16,7 +16,7 @@ def save_customers(customers):
     with open(FILE_NAME,"w")as file:
         json.dump(customers,file,indent=4)
 
-@customers.route("/")
+@customers.route("/home")
 def home():
     return jsonify({
         "Welcome":"Welcome to Customer Management "
