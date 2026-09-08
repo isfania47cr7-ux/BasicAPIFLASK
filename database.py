@@ -19,7 +19,13 @@ def create_table():
                 age INTEGER NOT NULL
                 )""")
 
-    
+    cursor.execute("PRAGMA table_info(students)")
+    columns_student=cursor.fetchall()
+    column_names_student=[column[1] for column in columns_student]
+    if "photo" not in column_names_student:
+        cursor.execute("ALTER TABLE students ADD COLUMN photo TEXT")
+    if "resume" not in column_names_student:
+        cursor.execute("ALTER TABLE students ADD COLUMN resume TEXT")
 
     conn.commit()
     conn.close()
