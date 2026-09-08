@@ -1,0 +1,26 @@
+[
+    {
+        "id": 102,
+        "product": "Shampoo",
+        "quantity": 1,
+        "price": 10
+    },
+    {
+        "id": 101,
+        "product": "Soap",
+        "quantity": 1,
+        "price": 20
+    },
+    {
+        "id": 103,
+        "product": "Soap",
+        "quantity": 2,
+        "price": 20
+    },
+    {
+        "id": 104,
+        "product": "Shampoo",
+        "quantity": 4,
+        "price": 10
+    }
+]
