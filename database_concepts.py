@@ -1,13 +1,11 @@
-from flask import Flask,request,jsonify
+from flask import Flask, render_template,request,jsonify
 from database import get_connection
 
-app=Flask(__name__)
+app=Flask(__name__,template_folder="frontend")
 
-@app.route("/home")
+@app.route("/")
 def home():
-    return jsonify({
-        "message":"Student Management API using SQLite"
-    })
+    return render_template("index.html")
 
 @app.route("/students",methods=["POST"])
 def add_student():
